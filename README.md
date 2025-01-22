@@ -48,8 +48,7 @@ pprint.pprint(recording_rebuild.cache)
             'session_url': 'https://tria.ge/241210-scgfgstkgj/'
         }
     ]
-}
-</code>
+}</code>
 
 A potential use-case could be (it's just an exmaple):
 - Parsing several GUAC urls, and representing them if form of a collage (example below):
