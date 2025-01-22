@@ -6,7 +6,8 @@ Additionally, it includes functionality for replaying the recording within an in
 
 ### Usage
 The main class supports following parameters:
-<code>:param StreamURL:
+<code>
+    :param StreamURL:
         A URL pointing to a Guacamole (.guac) recording stream containing the session recording.
     :param ScreenCaptureProgressTriggers:
         A list of percentages representing the progress points of the current recording at which to take screen captures.
@@ -21,7 +22,8 @@ The main class supports following parameters:
 </code>
 
 A basic usage example:
-<code>recording_rebuild = GuacRecordingRebuilder(StreamURL='https://tria.ge/241210-scgfgstkgj/behavioral1/logs/vnc.guac')
+<code>
+recording_rebuild = GuacRecordingRebuilder(StreamURL='https://tria.ge/241210-scgfgstkgj/behavioral1/logs/vnc.guac')
 recording_rebuild.start()
 pprint.pprint(recording_rebuild.cache)
 </code>
