@@ -30,26 +30,7 @@ pprint.pprint(recording_rebuild.cache)
 
 ### Result
 
-<code>{
-    'screenshots': [
-        {
-            '1_screen.jpg': <PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E251E10>,
-            'ScreenCapturePrefix': None,
-            'session_url': 'https://tria.ge/241210-scgfgstkgj/'
-        },
-        {
-            '1535_screen.jpg': <PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E6F0910>,
-            'ScreenCapturePrefix': None,
-            'session_url': 'https://tria.ge/241210-scgfgstkgj/'
-        },
-        {
-            '1726_screen.jpg': <PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E6F0A10>,
-            'ScreenCapturePrefix': None,
-            'session_url': 'https://tria.ge/241210-scgfgstkgj/'
-        }
-    ]
-}
-</code>
+\{ 'screenshots': [ { '1_screen.jpg': <PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E251E10>, 'ScreenCapturePrefix': None, 'session_url': 'https://tria.ge/241210-scgfgstkgj/' }, { '1535_screen.jpg': <PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E6F0910>, 'ScreenCapturePrefix': None, 'session_url': 'https://tria.ge/241210-scgfgstkgj/' }, { '1726_screen.jpg': <PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E6F0A10>, 'ScreenCapturePrefix': None, 'session_url': 'https://tria.ge/241210-scgfgstkgj/' } ] } \
 
 A potential use-case could be (it's just an exmaple):
 - Parsing several GUAC urls, and representing them if form of a collage (example below):
