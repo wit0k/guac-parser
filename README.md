@@ -7,18 +7,18 @@ Additionally, it includes functionality for replaying the recording within an in
 ### Usage
 The main class supports following parameters:
 <code>
-    :param StreamURL:
-        A URL pointing to a Guacamole (.guac) recording stream containing the session recording.
-    :param ScreenCaptureProgressTriggers:
-        A list of percentages representing the progress points of the current recording at which to take screen captures.
-    :param debug_mode:
-        Indicates whether debug mode is enabled.
-    :param ReplayRecording:
-        Opens a viewer window and plays the accelerated stream recording.
-    :param ScreenCapturePrefix:
-        A prefix for the dumped screenshot files.
-    :param CreateScreenshots:
-        Enables the dumping of screenshots.
+&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;StreamURL:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;URL&nbsp;pointing&nbsp;to&nbsp;a&nbsp;Guacamole&nbsp;(.guac)&nbsp;recording&nbsp;stream&nbsp;containing&nbsp;the&nbsp;session&nbsp;recording.
+&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;ScreenCaptureProgressTriggers:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;percentages&nbsp;representing&nbsp;the&nbsp;progress&nbsp;points&nbsp;of&nbsp;the&nbsp;current&nbsp;recording&nbsp;at&nbsp;which&nbsp;to&nbsp;take&nbsp;screen&nbsp;captures.
+&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;debug_mode:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Indicates&nbsp;whether&nbsp;debug&nbsp;mode&nbsp;is&nbsp;enabled.
+&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;ReplayRecording:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens&nbsp;a&nbsp;viewer&nbsp;window&nbsp;and&nbsp;plays&nbsp;the&nbsp;accelerated&nbsp;stream&nbsp;recording.
+&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;ScreenCapturePrefix:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;prefix&nbsp;for&nbsp;the&nbsp;dumped&nbsp;screenshot&nbsp;files.
+&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;CreateScreenshots:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enables&nbsp;the&nbsp;dumping&nbsp;of&nbsp;screenshots.
 </code>
 
 A basic usage example:
@@ -30,25 +30,28 @@ pprint.pprint(recording_rebuild.cache)
 
 ### Result
 
-<code>{
-    'screenshots': [
-        {
-            '1_screen.jpg': <PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E251E10>,
-            'ScreenCapturePrefix': None,
-            'session_url': 'https://tria.ge/241210-scgfgstkgj/'
-        },
-        {
-            '1535_screen.jpg': <PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E6F0910>,
-            'ScreenCapturePrefix': None,
-            'session_url': 'https://tria.ge/241210-scgfgstkgj/'
-        },
-        {
-            '1726_screen.jpg': <PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E6F0A10>,
-            'ScreenCapturePrefix': None,
-            'session_url': 'https://tria.ge/241210-scgfgstkgj/'
-        }
-    ]
-}</code>
+<code>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'screenshots': [
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'1_screen.jpg': &lt;PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E251E10&gt;,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ScreenCapturePrefix': None,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'session_url': 'https://tria.ge/241210-scgfgstkgj/'
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'1535_screen.jpg': &lt;PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E6F0910&gt;,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ScreenCapturePrefix': None,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'session_url': 'https://tria.ge/241210-scgfgstkgj/'
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'1726_screen.jpg': &lt;PIL.Image.Image image mode=RGB size=1280x720 at 0x2058E6F0A10&gt;,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ScreenCapturePrefix': None,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'session_url': 'https://tria.ge/241210-scgfgstkgj/'
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]
+&nbsp;&nbsp;&nbsp;&nbsp;}
+</code>
+
 
 A potential use-case could be (it's just an exmaple):
 - Parsing several GUAC urls, and representing them if form of a collage (example below):
