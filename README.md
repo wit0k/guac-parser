@@ -56,4 +56,5 @@ A potential use-case could be (it's just an exmaple):
 ![collage](https://github.com/user-attachments/assets/213b14ba-f4a0-4f7f-94a4-871f2b8882af)
 
 Such could be obtained by instantiating a test/PoC class **ImageCollage** with the results of **recording_rebuild.cache**, like:
-ImageCollage(screenshots).create_self_contained_image_collage_html()
+
+<code>**ImageCollage**(screenshots).**create_self_contained_image_collage_html**()</code>
