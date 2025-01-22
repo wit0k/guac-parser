@@ -28,8 +28,6 @@ recording_rebuild.start()
 pprint.pprint(recording_rebuild.cache)
 </code>
 
-![collage](https://github.com/user-attachments/assets/213b14ba-f4a0-4f7f-94a4-871f2b8882af)
-
 ### Result
 
 <code>{
@@ -52,3 +50,10 @@ pprint.pprint(recording_rebuild.cache)
     ]
 }
 </code>
+
+A potential use-case could be (it's just an exmaple):
+- Parsing several GUAC urls, and representing them if form of a collage (example below):
+![collage](https://github.com/user-attachments/assets/213b14ba-f4a0-4f7f-94a4-871f2b8882af)
+
+Such could be obtained by instantiating a test/PoC class **ImageCollage** with the results of **recording_rebuild.cache**, like:
+ImageCollage(screenshots).create_self_contained_image_collage_html()
