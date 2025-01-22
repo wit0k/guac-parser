@@ -28,6 +28,8 @@ recording_rebuild.start()
 pprint.pprint(recording_rebuild.cache)
 </code>
 
+![collage](https://github.com/user-attachments/assets/213b14ba-f4a0-4f7f-94a4-871f2b8882af)
+
 ### Result
 
 <code>{
