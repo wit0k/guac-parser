@@ -1,6 +1,7 @@
 # guac-parser
-Apache Guacamole (guac) session recording parser. A PoC script facilitating the parsing of guacamole protocol containing the stream of recorded session replay.
-
+This Proof of Concept (PoC) script enables the parsing of the Guacamole protocol, which includes a stream of recorded session replay. 
+Consequently, it provides the capability to extract screenshots, triggered by progress indicators based on the percentage of completion, from the recording. 
+Additionally, it includes functionality for replaying the recording within an integrated viewer.
 ![main_flow](https://github.com/user-attachments/assets/68a175e8-14bb-4c01-b85d-797a9723d00f)
 
 ### Usage
