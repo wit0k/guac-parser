@@ -4,6 +4,8 @@ Consequently, it provides the capability to extract screenshots, triggered by pr
 Additionally, it includes functionality for replaying the recording within an integrated viewer.
 ![main_flow](https://github.com/user-attachments/assets/68a175e8-14bb-4c01-b85d-797a9723d00f)
 
+**Remark**: Python 3.13.1t (Free-threading) is recommended (else it would be very slow)_
+
 ### Usage
 The main class supports following parameters:
 <code>

@@ -9,7 +9,10 @@ import base64
 import logging
 import time
 import hashlib
-import urllib.request
+from enum import verify
+
+# import urllib.request
+import requests
 import tkinter as tk
 import numpy as np  # Causes issues on 3.13.1
 import threading
@@ -17,14 +20,16 @@ import threading
 from datetime import datetime, UTC
 # from encodings.johab import codec
 from queue import Queue, Empty
-from venv import logger
 from io import BytesIO
 from PIL import ImageFile, Image, ImageTk
 from math import floor
 from typing import Callable, List, Any, Dict
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
+from urllib3 import disable_warnings
+from urllib3.exceptions import InsecureRequestWarning
 
+disable_warnings(InsecureRequestWarning)
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 from collections import OrderedDict
@@ -290,7 +295,9 @@ class GuacRecordingRebuilder:
 
     cache = None
 
-    def __init__(self, StreamURL: str, CreateScreenshots=True, ScreenCaptureProgressTriggers=[4, 50, 99], ScreenCapturePrefix=None, ReplayRecording=False, debug_mode: bool = False):
+    def __init__(self, StreamURL: str, CreateScreenshots=True, ScreenCaptureProgressTriggers=[4, 50, 99],
+                 ScreenCapturePrefix=None, ReplayRecording=False, debug_mode: bool = False,
+                 SessionObj=None):
         """
             :param StreamURL:
                 A URL pointing to a Guacamole (.guac) recording stream containing the session recording.
@@ -326,6 +333,11 @@ class GuacRecordingRebuilder:
         self.ReplayRecording = ReplayRecording
         self.CreateScreenshots = CreateScreenshots
         self.ScreenCapturePrefix = ScreenCapturePrefix
+
+        if SessionObj is None:
+            self.SessionObj = requests.Session()
+        else:
+            self.SessionObj = SessionObj
 
     def parse_stream_chunk(self, chunk: bytes):
         """ Parses guac instructions from bytes/chunks taken from the network stream
@@ -428,7 +440,7 @@ class GuacRecordingRebuilder:
             return instructions, b''
 
         except Exception as msg:
-            logger.error('Exception: %s' % msg)
+            self.logger.error('Exception: %s' % msg)
             return instructions, b''
 
     def parse_stream_instructions(self, url: str = None, dump_raw_stream: bool = False):
@@ -436,26 +448,24 @@ class GuacRecordingRebuilder:
         inst_count = 0
 
         if url is None: url = self.url
-        logger.info('[+] Process instructions from stream: %s' % url)
+        self.logger.info('[+] Process instructions from stream: %s' % url)
         last_inst_id = None
         raw_stream_fobj = None
 
         if dump_raw_stream:
             raw_stream_fobj = open(r'raw_stream.bin', 'wb')
 
-        req = urllib.request.Request(url)
+        # req = urllib.request.Request(url)
         # req.add_header('Authorization', headers['Authorization'])
-        req.add_header('User-agent', headers['User-agent'])
-
-        with urllib.request.urlopen(req, timeout=120) as response:
-
-            if response.code == 200:
+        # req.add_header('User-agent', headers['User-agent'])
+        # with urllib.request.urlopen(req, timeout=120) as response:
+        with self.SessionObj.get(url, stream=True, verify=False, timeout=120) as response:
+            response.raise_for_status()
+            if response.status_code == 200:
                 chunk_size = 4096
                 unprocessed_chunk = b''
-                _continue = True
                 inst_count = -1
-                while _continue:
-                    chunk = response.read(chunk_size)
+                for chunk in response.iter_content(chunk_size=chunk_size):
                     if chunk:
                         if dump_raw_stream:
                             raw_stream_fobj.write(chunk)
@@ -472,8 +482,8 @@ class GuacRecordingRebuilder:
                         except Exception as msg:
                             print('Failed to extend instructions queue: Error: ', str(msg))
                     else:
-                        logger.info('The chunk is empty, exiting stream...')
-                        _continue = False
+                        self.logger.info('The chunk is empty, exiting stream...')
+                        break
             else:
                 print(f"Failed to retrieve stream: {response.status_code}")
 
@@ -563,7 +573,7 @@ class GuacRecordingRebuilder:
         if create_screenshots is None: create_screenshots = self.CreateScreenshots
 
         self._is_running = True
-        logger.info('[+] Start rebuilding instructions...')
+        self.logger.info('[+] Start rebuilding instructions...')
         g_frame = None
 
         # Stops when GuacStreamProcessingThread is complete (no more instructions in the stream), and queue is empty and the rebuilding stop event has been set
@@ -580,7 +590,7 @@ class GuacRecordingRebuilder:
                     if inst_obj.opcode not in g_frame.elements:
                         g_frame.build(inst_obj=inst_obj)
                     else:
-                        logger.debug(g_frame)
+                        self.logger.debug(g_frame)
                         frames.append(g_frame)
 
                         # Start fresh
@@ -603,7 +613,7 @@ class GuacRecordingRebuilder:
                     pass
 
             except Exception as e:
-                logger.error(f"Exception: Unexpected error in rebuild thread: {e}")
+                self.logger.error(f"Exception: Unexpected error in rebuild thread: {e}")
                 if len(self.queue.queue) == 0:
                     self._is_running = False
 
