@@ -297,7 +297,7 @@ class GuacRecordingRebuilder:
 
     def __init__(self, StreamURL: str, CreateScreenshots=True, ScreenCaptureProgressTriggers=[4, 50, 99],
                  ScreenCapturePrefix=None, ReplayRecording=False, debug_mode: bool = False,
-                 SessionObj=None):
+                 SessionObj=None, logger=None):
         """
             :param StreamURL:
                 A URL pointing to a Guacamole (.guac) recording stream containing the session recording.
@@ -311,10 +311,20 @@ class GuacRecordingRebuilder:
                 A prefix for the dumped screenshot files.
             :param CreateScreenshots:
                 Enables the dumping of screenshots.
+            :param SessionObj:
+                HTTP Requests session object to use (possibly with initialized headers, cookies etc.)
+            :param SessionObj:
+                A logger object
         """
+        self._is_running = False
         self.debug_mode = debug_mode
-        if self.debug_mode == True:
-            logging.basicConfig(level=logging.INFO)
+        if logger is not None:
+            self.logger = logger
+        else:
+            self.logger = logging.getLogger()
+
+        if self.debug_mode:
+            self.logger.setLevel(logging.DEBUG)
 
         if self.cache is None: self.cache = {
             'screenshots': []
@@ -322,13 +332,8 @@ class GuacRecordingRebuilder:
 
         self.logger = logging
         self.url = StreamURL
-        self.queue = Queue()
-        self.elements = [] if debug_mode else None
-        self._stop_processing_event = threading.Event()
-        self._stop_rebuild_event = threading.Event()
+        self.instructions = Queue()
         self.lock = threading.Lock()
-        self.rebuilt_objects = []
-        self._is_running = False
         self.ScreenCaptureProgressTriggers = ScreenCaptureProgressTriggers
         self.ReplayRecording = ReplayRecording
         self.CreateScreenshots = CreateScreenshots
@@ -338,6 +343,9 @@ class GuacRecordingRebuilder:
             self.SessionObj = requests.Session()
         else:
             self.SessionObj = SessionObj
+
+        self._stop_processing_event = threading.Event()
+        self._stop_rebuild_event = threading.Event()
 
     def parse_stream_chunk(self, chunk: bytes):
         """ Parses guac instructions from bytes/chunks taken from the network stream
@@ -449,7 +457,6 @@ class GuacRecordingRebuilder:
 
         if url is None: url = self.url
         self.logger.info('[+] Process instructions from stream: %s' % url)
-        last_inst_id = None
         raw_stream_fobj = None
 
         if dump_raw_stream:
@@ -501,9 +508,7 @@ class GuacRecordingRebuilder:
         try:
             with self.lock:
                 # self.logger.debug(' [-] Adding instruction -> inst.id: %s' % inst.id)
-                self.queue.put(inst)
-                if self.debug_mode:
-                    self.elements.append(inst)
+                self.instructions.put(inst)
         except Exception as e:
             if self.debug_mode:
                 print(f"Error inserting element: {e}")
@@ -528,42 +533,11 @@ class GuacRecordingRebuilder:
         If a layer is nested within another layer, its position is relative to that of its parent. When the parent is moved or
         reordered, the child moves with it. If the child extends beyond the parents bounds, it will be clipped.
 
-        /**
          * A single frame of Guacamole session data. Each frame is made up of the set
          * of instructions used to generate that frame, and the timestamp as dictated
          * by the "sync" instruction terminating the frame. Optionally, a frame may
          * also be associated with a snapshot of Guacamole client state, such that the
          * frame can be rendered without replaying all previous frames.
-         *
-         * @private
-         * @constructor
-         * @param {!number} timestamp
-         *     The timestamp of this frame, as dictated by the "sync" instruction which
-         *     terminates the frame.
-         *
-         * @param {!number} start
-         *     The byte offset within the blob of the first character of the first
-         *     instruction of this frame.
-         *
-         * @param {!number} end
-         *     The byte offset within the blob of character which follows the last
-         *     character of the last instruction of this frame.
-         */
-        Guacamole.SessionRecording._Frame = function _Frame(timestamp, start, end) {
-            /**
-             * Whether this frame should be used as a keyframe if possible. This value
-             * is purely advisory. The stored clientState must eventually be manually
-             * set for the frame to be used as a keyframe. By default, frames are not
-             * keyframes.
-             *
-             * @type {!boolean}
-             * @default false
-             */
-             this.keyframe = false;
-
-             -----------------------
-             IF first frame -> keyframe = false
-             timestamp -> int(sync.timestamp)
         """
         default_layer_obj = default_layer()
         frames = []
@@ -579,7 +553,7 @@ class GuacRecordingRebuilder:
         # Stops when GuacStreamProcessingThread is complete (no more instructions in the stream), and queue is empty and the rebuilding stop event has been set
         while self._is_running:
             try:
-                inst_obj = self.queue.get(block=False)
+                inst_obj = self.instructions.get(block=False)
 
                 if self.debug_mode:
                     self.logger.error(inst_obj)
@@ -599,7 +573,7 @@ class GuacRecordingRebuilder:
                 else:
                     g_frame.build(inst_obj=inst_obj)
 
-                self.queue.task_done()
+                self.instructions.task_done()
 
             except Empty:
                 # When GuacStreamProcessingThread is complete (no more instructions in the stream), and the queue was processed / is empty
@@ -614,7 +588,7 @@ class GuacRecordingRebuilder:
 
             except Exception as e:
                 self.logger.error(f"Exception: Unexpected error in rebuild thread: {e}")
-                if len(self.queue.queue) == 0:
+                if len(self.instructions.queue) == 0:
                     self._is_running = False
 
         def create_screenshot_trigger(total_duration, elapsed_seconds, time_s):
@@ -737,7 +711,7 @@ class GuacRecordingRebuilder:
                                 self.logger.error(' [-] Unable to save the image. Exception: %s' % str(msg))
 
                 create_new_base = False
-                # time.sleep(0.01)
+                if replay_recording: time.sleep(0.02)
 
         # End
         self.stop()
@@ -784,14 +758,17 @@ class GuacRecordingRebuilder:
 
 """ Helper Classes """
 class ImageCollage(object):
-    def __init__(self, images):
+    def __init__(self, images, logger=None):
+        self.logger = logging
         self.images = images
 
     def create_self_contained_image_collage_html(self, images=None, output_file: str = "collage.html", thumbnails_size: tuple = (200, 200)) -> str:
         """
         Creates a self-contained HTML file with an image collage from a list of PIL images.
-        """
 
+        Remark: Genrated with copilot (I've made few modifications)... Rememeber it's non producion/PoC code
+        """
+        self.logger.info('[+] Creating a self-contained HTML image collage...')
         if images is None: images = self.images
 
         def create_sharp_thumbnail(img: Image.Image, size: tuple) -> Image.Image:
@@ -1057,13 +1034,6 @@ class ThreadManager:
         self.max_threads = max_threads
         self.results: List[ThreadResult] = []
         self._lock = threading.Lock()
-        self.logger = logging.getLogger(__name__)
-
-        # Configure logging
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(threadName)s - %(levelname)s - %(message)s'
-        )
 
     def _execute_and_store(self, func: Callable) -> None:
         """Execute function with named parameters and store its result thread-safely"""
@@ -1151,7 +1121,7 @@ if __name__ == "__main__":
                 'CreateScreenshots': True,
                 'ScreenCaptureProgressTriggers': [99],
                 'ScreenCapturePrefix': session_id,
-                'ReplayRecording': False,
+                'ReplayRecording': False,  # Do not use it when more than 1 URL (Some issues with Thinter to fix
             })
         )
 

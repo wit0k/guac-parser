@@ -9,18 +9,22 @@ Additionally, it includes functionality for replaying the recording within an in
 ### Usage
 The main class supports following parameters:
 <code>
-&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;StreamURL:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;URL&nbsp;pointing&nbsp;to&nbsp;a&nbsp;Guacamole&nbsp;(.guac)&nbsp;recording&nbsp;stream&nbsp;containing&nbsp;the&nbsp;session&nbsp;recording.
-&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;ScreenCaptureProgressTriggers:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;percentages&nbsp;representing&nbsp;the&nbsp;progress&nbsp;points&nbsp;of&nbsp;the&nbsp;current&nbsp;recording&nbsp;at&nbsp;which&nbsp;to&nbsp;take&nbsp;screen&nbsp;captures.
-&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;debug_mode:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Indicates&nbsp;whether&nbsp;debug&nbsp;mode&nbsp;is&nbsp;enabled.
-&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;ReplayRecording:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens&nbsp;a&nbsp;viewer&nbsp;window&nbsp;and&nbsp;plays&nbsp;the&nbsp;accelerated&nbsp;stream&nbsp;recording.
-&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;ScreenCapturePrefix:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;prefix&nbsp;for&nbsp;the&nbsp;dumped&nbsp;screenshot&nbsp;files.
-&nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;CreateScreenshots:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enables&nbsp;the&nbsp;dumping&nbsp;of&nbsp;screenshots.
+	:param&nbsp;StreamURL:
+		A&nbsp;URL&nbsp;pointing&nbsp;to&nbsp;a&nbsp;Guacamole&nbsp;(.guac)&nbsp;recording&nbsp;stream&nbsp;containing&nbsp;the&nbsp;session&nbsp;recording.
+	:param&nbsp;ScreenCaptureProgressTriggers:
+		A&nbsp;list&nbsp;of&nbsp;percentages&nbsp;representing&nbsp;the&nbsp;progress&nbsp;points&nbsp;of&nbsp;the&nbsp;current&nbsp;recording&nbsp;at&nbsp;which&nbsp;to&nbsp;take&nbsp;screen&nbsp;captures.
+	:param&nbsp;debug_mode:
+		Indicates&nbsp;whether&nbsp;debug&nbsp;mode&nbsp;is&nbsp;enabled.
+	:param&nbsp;ReplayRecording:
+		Opens&nbsp;a&nbsp;viewer&nbsp;window&nbsp;and&nbsp;plays&nbsp;the&nbsp;accelerated&nbsp;stream&nbsp;recording.
+	:param&nbsp;ScreenCapturePrefix:
+		A&nbsp;prefix&nbsp;for&nbsp;the&nbsp;dumped&nbsp;screenshot&nbsp;files.
+	:param&nbsp;CreateScreenshots:
+		Enables&nbsp;the&nbsp;dumping&nbsp;of&nbsp;screenshots.
+	:param&nbsp;SessionObj:
+		HTTP&nbsp;Requests&nbsp;session&nbsp;object&nbsp;to&nbsp;use&nbsp;(possibly&nbsp;with&nbsp;initialized&nbsp;headers,&nbsp;cookies&nbsp;etc.)
+	:param&nbsp;SessionObj:
+		A&nbsp;logger&nbsp;object
 </code>
 
 A basic usage example:
