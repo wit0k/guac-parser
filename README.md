@@ -16,7 +16,7 @@ The main class supports following parameters:
 &nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;debug_mode:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Indicates&nbsp;whether&nbsp;debug&nbsp;mode&nbsp;is&nbsp;enabled.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;ReplayRecording:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens&nbsp;a&nbsp;viewer&nbsp;window&nbsp;and&nbsp;plays&nbsp;the&nbsp;accelerated&nbsp;stream&nbsp;recording.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens&nbsp;a&nbsp;viewer&nbsp;window&nbsp;and&nbsp;plays&nbsp;the&nbsp;accelerated&nbsp;stream&nbsp;recording. [EXPERIMENTAL]<br>
 &nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;ScreenCapturePrefix:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;prefix&nbsp;for&nbsp;the&nbsp;dumped&nbsp;screenshot&nbsp;files.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;:param&nbsp;CreateScreenshots:<br>
@@ -58,11 +58,10 @@ pprint.pprint(recording_rebuild.cache)
 &nbsp;&nbsp;&nbsp;&nbsp;}
 </code>
 
+### Example Use-cases
 
-A potential use-case could be (it's just an exmaple):
-- Parsing several GUAC urls, and representing them if form of a collage (example below):
+- Representing the analysis of multiple URLs if form of an image collage:
 ![collage](https://github.com/user-attachments/assets/213b14ba-f4a0-4f7f-94a4-871f2b8882af)
 
-Such could be obtained by instantiating a test/PoC class **ImageCollage** with the results of **recording_rebuild.cache**, like:
-
-<code>**ImageCollage**(screenshots).**create_self_contained_image_collage_html**()</code>
+  Such could be obtained by instantiating a test/PoC class **ImageCollage** with the results of **screenshots = recording_rebuild.cache['screenshots']**, like:
+  <code>**ImageCollage**(screenshots).**create_self_contained_image_collage_html**()</code>
