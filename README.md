@@ -7,6 +7,7 @@ The Proof of Concept (PoC) script enables the parsing of the Guacamole protocol,
 **Remark**: Python 3.13.1t (Free-threading) is recommended
 
 ### Key Features
+- **Speed**: Parses multiple videos in seconds (depends on network stream throughput)
 - **Portable**: Extensible design allows for easy addition of new instruction types.
 - **Instruction Parsing**: Decodes the Guacamole session recording (guac) instructions stream.
 - **Screenshot Dumping**: Extracts screenshots from the session recording stream, capturing the visual behavior at specified progress points.
