@@ -15,7 +15,7 @@ The Proof of Concept (PoC) script enables the parsing of the Guacamole protocol,
 
 ### To Do:
 - **Offline Replay**: Add the capability to create MP4 videos from the recording stream for easier sharing, review, or auditing.
-- **AI support**: A model to analyze and summarize activities from screen shots
+- **AI support**: A model to analyze and summarize activities from screenshots
 
 
 ### Usage
