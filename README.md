@@ -76,7 +76,7 @@ pprint.pprint(recording_rebuild.cache)
 - Visual representation of URL analysis through an image collage:
 ![collage](https://github.com/user-attachments/assets/213b14ba-f4a0-4f7f-94a4-871f2b8882af)
 
-  Such could be obtained by instantiating a test/PoC class **ImageCollage** with the results of **screenshots = recording_rebuild.cache['screenshots']**, like:
+  Could be obtained by instantiating a test class **ImageCollage** with the results of **screenshots = recording_rebuild.cache['screenshots']**, like:
   <code>**ImageCollage**(screenshots).**create_self_contained_image_collage_html**()</code>
 
 - ... [ Let me know if you have any other ideas ]
