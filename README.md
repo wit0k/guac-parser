@@ -2,7 +2,7 @@
 
 The Proof of Concept (PoC) script enables the parsing of the Guacamole protocol, which includes a stream of recorded session replay. Consequently, providing the capability to extract screenshots, triggered by progress indicators based on the percentage of completion, from the recording progress. Additionally, it includes functionality for replaying the recording within an integrated viewer.
 
-[Introduction](https://github.com/wit0k/guac-parser/blob/main/docs/guac_parser_intro.pdf)
+**Note**: To get more information, have a look at: [Introduction](https://github.com/wit0k/guac-parser/blob/main/docs/guac_parser_intro.pdf)
 
 ![main_flow](https://github.com/user-attachments/assets/68a175e8-14bb-4c01-b85d-797a9723d00f)
 
